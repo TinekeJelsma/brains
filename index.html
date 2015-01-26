@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+<style>
+
+.bar {
+   fill: DarkGrey;
+}
+
+.bar text {
+   font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+   fill: none;
+   stroke: #ccc;
+   shape-rendering: crispEdges;
+}
+
+.x.axis text {
+   font: 10px sans-serif;
+}
+
+.y.axis path {
+   display: none;
+}
+
+.y.axis line {
+   display: none;
+}
+
+.y.axis text {
+   font: 12px sans-serif;
+}
+
+.container {
+   padding-right: 15px;
+   padding-left: 15px;
+   margin-right: auto;
+   margin-left: auto;
+}
+@media (min-width: 768px) {
+   .container {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+   .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+   .container {
+    width: 1170px;
+  }
+}
+
+.control {
+   padding-left: 10px;
+   font: 12px sans-serif;
+   margin-right: auto;
+   margin-left: auto;
+   width: 400px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+	<div class="control">
+	 <p><strong>Measure:</strong>    
+		<select id="measures">
+			<option value="Brain size (g)">Brain size (g)</option>
+			<option value="Relative brain size (% of body mass)">Relative brain size (% body mass)</option>
+			<option value="Encephalisation Quotient">Encephalisation Quotient</option>
+			<option value="Brain neurons (billions)">Brain neurons (billions)</option>
+			<option value="Cerebral cortex neurons (billions)">Cerebral cortex neurons (billions)</option>
+		</select> 
+	 </p>
+	</div>
+
+	<svg class="chart"></svg>
+
+	</div>
+
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+
+var width = parseInt(d3.select(".container").style("width"), 10);
+
+var margin = {top: 20, right: 30, bottom: 30, left: 80},
+	width = width - margin.left - margin.right,
+	height = 400 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+	.range([0, width]);
+
+var y = d3.scale.ordinal()
+	.rangeRoundBands([height, 0], .3);
+
+var xAxis = d3.svg.axis()
+	.scale(x)
+	.orient("top")
+	.ticks(4);
+
+var yAxis = d3.svg.axis()
+	.scale(y)
+	.orient("left");
+	
+var chart = d3.select(".chart")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("brain_data.csv", type, function(error, data) {
+	x.domain([0, d3.max(data, function(d) { return 1.2*(d.value); })]);
+	y.domain(data.map(function(d) { return d.species; }));
+
+	chart.append("g")
+		.attr("class", "x axis")
+		.call(xAxis);
+
+	chart.append("g")
+		.attr("class", "y axis")
+		.call(yAxis);
+
+	chart.selectAll(".bar")
+		.data(data.filter(function (d) { return (d.measure=="Brain size (g)"); })) //filter to initially display data for brain size
+		.enter().append("rect")
+		.attr("class", "bar")
+		.attr("y", function(d) { return y(d.species); })
+		.attr("width", function(d) { return x(d.value); })
+		.attr("height", y.rangeBand());
+
+	chart.append("svg:image")
+		.attr("xlink:href", "elephant.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",7);
+
+	chart.append("svg:image")
+		.attr("xlink:href", "marmoset.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",75);
+
+	chart.append("svg:image")
+		.attr("xlink:href", "macaque.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",130);
+
+	chart.append("svg:image")
+		.attr("xlink:href", "gorilla.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",180);
+
+	chart.append("svg:image")
+		.attr("xlink:href", "chimp.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",235);
+
+	chart.append("svg:image")
+		.attr("xlink:href", "human.svg")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("y",280);
+
+
+	//transition on dropdown select
+	d3.select("#measures").on("change", function() {
+		var logger = this.options[this.selectedIndex].value
+// 		console.log(logger)
+
+	x.domain([0, d3.max(data.filter(function (d) { return (d.measure==logger); }), function(d) { return 1.2*(d.value); })]);
+
+	chart.selectAll("rect")
+			.data(data.filter(function (d) { return (d.measure==logger); })) //filter data
+			.transition()
+			.duration(1000)
+			.attr("y", function(d) { return y(d.species); })
+			.attr("width", function(d) { return x(d.value); })
+			.attr("height", y.rangeBand());
+
+	chart.select(".x.axis")
+		.transition()
+		.duration(1000)
+		.call(xAxis);
+
+	});
+
+});
+
+//resize chart on window resize
+d3.select(window).on("resize", resize);
+ 
+function resize() {
+	// update width
+	width = parseInt(d3.select(".container").style("width"), 10);
+	width = width - margin.left - margin.right;
+ 
+	// resize the chart
+	x.range([0, width]);
+
+	d3.select(chart.node().parentNode)
+		.style("width", (width + margin.left + margin.right) + "px");
+	
+	chart.selectAll("rect")
+		.attr("width", function(d) { return x(d.value); });
+
+	chart.selectAll("image")
+		.attr("width", 64)
+		.attr("height", 64)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150);
+
+	chart.select("g").call(xAxis.orient("top"));
+
+}
+
+function type(d) {
+	d.value = +d.value; // coerce to number
+	return d;
+}
+
+
+</script>
+
+</body>
+
+</html>
