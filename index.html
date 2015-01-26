@@ -98,7 +98,7 @@
 
 var width = parseInt(d3.select(".container").style("width"), 10);
 
-var margin = {top: 20, right: 30, bottom: 30, left: 80},
+var margin = {top: 20, right: 40, bottom: 30, left: 95},
 	width = width - margin.left - margin.right,
 	height = 400 - margin.top - margin.bottom;
 
@@ -147,42 +147,42 @@ d3.csv("brain_data.csv", type, function(error, data) {
 		.attr("xlink:href", "elephant.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",7);
 
 	chart.append("svg:image")
 		.attr("xlink:href", "marmoset.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",75);
 
 	chart.append("svg:image")
 		.attr("xlink:href", "macaque.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",130);
 
 	chart.append("svg:image")
 		.attr("xlink:href", "gorilla.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",180);
 
 	chart.append("svg:image")
 		.attr("xlink:href", "chimp.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",235);
 
 	chart.append("svg:image")
 		.attr("xlink:href", "human.svg")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150)
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160)
 		.attr("y",280);
 
 
@@ -230,7 +230,7 @@ function resize() {
 	chart.selectAll("image")
 		.attr("width", 64)
 		.attr("height", 64)
-		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 150);
+		.attr("x", parseInt(d3.select(".container").style("width"), 10) - 160);
 
 	chart.select("g").call(xAxis.orient("top"));
 

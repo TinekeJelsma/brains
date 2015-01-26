@@ -14,11 +14,11 @@ Gorilla,Relative brain size (% of body mass),0.5
 Gorilla,Encephalisation Quotient,1.6
 Gorilla,Brain neurons (billions),33
 Gorilla,Cerebral cortex neurons (billions),9.1
-Macaque,Brain size (g),93
-Macaque,Relative brain size (% of body mass),1.2
-Macaque,Encephalisation Quotient,2.1
-Macaque,Brain neurons (billions),6
-Macaque,Cerebral cortex neurons (billions),1.7
+Rhesus monkey,Brain size (g),93
+Rhesus monkey,Relative brain size (% of body mass),1.2
+Rhesus monkey,Encephalisation Quotient,2.1
+Rhesus monkey,Brain neurons (billions),6
+Rhesus monkey,Cerebral cortex neurons (billions),1.7
 Marmoset,Brain size (g),8
 Marmoset,Relative brain size (% of body mass),2.7
 Marmoset,Encephalisation Quotient,1.7
